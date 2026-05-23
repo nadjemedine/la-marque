@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { createBrowserClient } from '@supabase/ssr';
 import { ArrowRight } from 'lucide-react';
 
-export const revalidate = 60; // Revalidate periodically
+export const revalidate = 0; // Disable cache for immediate execution
 
 async function getCategories() {
   const supabase = createBrowserClient(
