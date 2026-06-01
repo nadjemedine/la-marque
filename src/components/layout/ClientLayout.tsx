@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import BottomNav from './BottomNav';
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -11,10 +12,11 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
   return (
     <>
       {!isAdmin && <Navbar />}
-      <main className={`flex-grow ${isAdmin ? '' : 'pt-20'}`}>
+      <main className={`flex-grow ${isAdmin ? '' : 'pt-20 pb-[70px] md:pb-0'}`}>
         {children}
       </main>
       {!isAdmin && <Footer />}
+      {!isAdmin && <BottomNav />}
     </>
   );
 }
