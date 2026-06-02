@@ -45,21 +45,11 @@ export default function Hero() {
   const btnText = heroSettings?.button_text || "Découvrir maintenant";
   const btnLink = heroSettings?.button_link || "/categories";
   
-  // Utiliser l'image de Supabase ou le placeholder d'origine
-  const bgImage = heroSettings?.image_url 
-    ? `url('${heroSettings.image_url}')` 
-    : `url('https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=2071&auto=format&fit=crop')`;
-
   return (
     <section className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
       {/* Background with an aesthetic gradient or image placeholder */}
       <div className="absolute inset-0 bg-secondary/50">
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent z-10" />
-        {/* Dynamic Hero Image */}
-        <div 
-          className="absolute right-0 top-0 h-full w-[60%] bg-cover bg-center" 
-          style={{ backgroundImage: bgImage }}
-        />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background z-10" />
       </div>
 
       <div className="container px-6 max-w-7xl relative z-20 flex flex-col items-start justify-center h-full">
