@@ -20,6 +20,7 @@ type Product = {
   category: string;
   sizes: string[];
   colors: string[];
+  color_images?: Record<string, string>;
   in_stock: boolean;
 };
 
@@ -228,7 +229,14 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                     {product.colors.map((color) => (
                       <button
                         key={color}
-                        onClick={() => setSelectedColor(color)}
+                        onClick={() => {
+                          setSelectedColor(color);
+                          if (product.color_images && product.color_images[color]) {
+                            const imgUrl = product.color_images[color];
+                            const idx = images.indexOf(imgUrl);
+                            if (idx !== -1) setActiveImage(idx);
+                          }
+                        }}
                         className={`shrink-0 px-4 h-11 flex items-center justify-center rounded-full border-2 text-sm font-medium transition-all ${
                           selectedColor === color
                             ? 'border-primary bg-primary/5 text-primary'

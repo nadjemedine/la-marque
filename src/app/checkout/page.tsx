@@ -10,8 +10,6 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { items, totalPrice, clearCart } = useCartStore();
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  
   const [formData, setFormData] = useState({
     fullName: '',
     phoneNumber: '',
@@ -35,10 +33,14 @@ export default function CheckoutPage() {
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
       );
 
+      // Client-side UUID generation for order id (to avoid RLS Select restrictions)
+      const orderId = crypto.randomUUID();
+
       // Create Order
-      const { data: orderData, error: orderError } = await supabase
+      const { error: orderError } = await supabase
         .from('orders')
         .insert({
+          id: orderId,
           full_name: formData.fullName,
           phone_number: formData.phoneNumber,
           wilaya: formData.wilaya,
@@ -46,16 +48,17 @@ export default function CheckoutPage() {
           address: formData.address,
           total_amount: totalAmount,
           status: 'pending'
-        })
-        .select()
-        .single();
+        });
 
-      if (orderError) throw orderError;
+      if (orderError) {
+        console.error("Orders Error:", orderError);
+        throw orderError;
+      }
 
       // Create Order Items
       const orderItems = items.map((item) => ({
-        order_id: orderData.id,
-        product_id: null, // Depending on if we use real IDs or mocked ones. For now, leave null or use mock UUID if we created products
+        order_id: orderId,
+        product_id: item.id && item.id.length > 20 ? item.id : null, // Ensure valid UUID or null
         quantity: item.quantity,
         size: item.size || null,
         color: item.color || null,
@@ -66,14 +69,14 @@ export default function CheckoutPage() {
         .from('order_items')
         .insert(orderItems);
 
-      if (itemsError) throw itemsError;
+      if (itemsError) {
+        console.error("Order Items Error:", itemsError);
+        throw itemsError;
+      }
 
       // Success
       clearCart();
-      setSuccess(true);
-      setTimeout(() => {
-        router.push('/');
-      }, 3000);
+      router.push('/thank-you');
 
     } catch (err) {
       console.error("Error submitting order:", err);
@@ -82,23 +85,6 @@ export default function CheckoutPage() {
       setLoading(false);
     }
   };
-
-  if (success) {
-    return (
-      <div className="container mx-auto px-6 py-24 max-w-lg text-center mt-20">
-        <div className="w-20 h-20 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-6">
-          <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-          </svg>
-        </div>
-        <h1 className="text-3xl font-bold mb-4">Commande Confirmée !</h1>
-        <p className="text-muted-foreground mb-8">
-          Merci pour votre commande. Notre équipe vous contactera sous peu pour confirmer la livraison.
-        </p>
-        <p className="text-sm text-muted-foreground">Redirection vers l'accueil...</p>
-      </div>
-    );
-  }
 
   return (
     <div className="container mx-auto px-6 pt-4 pb-12 lg:pb-24 max-w-7xl">

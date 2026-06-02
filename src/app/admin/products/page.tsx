@@ -15,6 +15,7 @@ type Product = {
   category: string;
   sizes: string[];
   colors: string[];
+  color_images?: Record<string, string>;
   in_stock: boolean;
 };
 
@@ -23,6 +24,7 @@ type ImageItem = {
   url: string;
   file?: File;
   isNew: boolean;
+  color?: string;
 };
 
 export default function AdminProductsPage() {
@@ -42,6 +44,7 @@ export default function AdminProductsPage() {
     in_stock: true,
     sizes: [] as string[],
     colors: [] as string[],
+    color_images: {} as Record<string, string>,
   });
 
   // Tag inputs
@@ -102,12 +105,17 @@ export default function AdminProductsPage() {
         in_stock: product.in_stock,
         sizes: product.sizes || [],
         colors: product.colors || [],
+        color_images: product.color_images || {},
       });
-      const existingImages: ImageItem[] = (product.images || []).map((url) => ({
-        id: generateId(),
-        url,
-        isNew: false,
-      }));
+      const existingImages: ImageItem[] = (product.images || []).map((url) => {
+        const color = Object.entries(product.color_images || {}).find(([c, u]) => u === url)?.[0];
+        return {
+          id: generateId(),
+          url,
+          isNew: false,
+          color,
+        };
+      });
       if (existingImages.length === 0 && product.image_url) {
         existingImages.push({ id: generateId(), url: product.image_url, isNew: false });
       }
@@ -123,6 +131,7 @@ export default function AdminProductsPage() {
         in_stock: true,
         sizes: [],
         colors: [],
+        color_images: {},
       });
       setImageItems([]);
     }
@@ -200,12 +209,17 @@ export default function AdminProductsPage() {
     e.preventDefault();
     setUploading(true);
     const finalUrls: string[] = [];
+    const colorImages: Record<string, string> = {};
     for (const item of imageItems) {
       if (item.isNew && item.file) {
         const uploadedUrl = await uploadImage(item.file);
-        if (uploadedUrl) finalUrls.push(uploadedUrl);
+        if (uploadedUrl) {
+          finalUrls.push(uploadedUrl);
+          if (item.color) colorImages[item.color] = uploadedUrl;
+        }
       } else {
         finalUrls.push(item.url);
+        if (item.color) colorImages[item.color] = item.url;
       }
     }
     const payload = {
@@ -219,6 +233,7 @@ export default function AdminProductsPage() {
       in_stock: formData.in_stock,
       sizes: formData.sizes,
       colors: formData.colors,
+      color_images: colorImages,
     };
     const { error } = editingProduct 
       ? await supabase.from('products').update(payload).eq('id', editingProduct.id)
@@ -363,12 +378,27 @@ export default function AdminProductsPage() {
                   {imageItems.map((item, idx) => (
                     <div key={item.id} className="relative aspect-square border rounded-lg overflow-hidden group">
                       <img src={item.url} className="w-full h-full object-cover" />
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center gap-1 transition-opacity">
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center gap-1 transition-opacity z-10">
                         <button type="button" onClick={() => handleMoveImage(idx, 'up')} className="bg-white p-1 rounded text-black text-xs font-bold">←</button>
                         <button type="button" onClick={() => handleRemoveImage(item.id)} className="bg-red-500 p-1 rounded text-white"><X className="w-3 h-3" /></button>
                         <button type="button" onClick={() => handleMoveImage(idx, 'down')} className="bg-white p-1 rounded text-black text-xs font-bold">→</button>
                       </div>
-                      {idx === 0 && <span className="absolute top-1 left-1 bg-primary text-white text-[8px] px-1 rounded">رئيسية</span>}
+                      {formData.colors.length > 0 && (
+                        <div className="absolute bottom-0 left-0 right-0 bg-black/60 p-1 opacity-100 z-20">
+                          <select 
+                            className="w-full bg-transparent text-white text-xs outline-none"
+                            value={item.color || ''}
+                            onChange={(e) => {
+                               const selectedColor = e.target.value;
+                               setImageItems(prev => prev.map(img => img.id === item.id ? { ...img, color: selectedColor || undefined } : img));
+                            }}
+                          >
+                            <option value="" className="text-black text-xs">-- Couleur --</option>
+                            {formData.colors.map(c => <option key={c} value={c} className="text-black text-xs">{c}</option>)}
+                          </select>
+                        </div>
+                      )}
+                      {idx === 0 && <span className="absolute top-1 left-1 bg-primary text-white text-[8px] px-1 rounded z-20">رئيسية</span>}
                     </div>
                   ))}
                   <button type="button" onClick={() => fileInputRef.current?.click()} className="aspect-square border-2 border-dashed rounded-lg flex items-center justify-center text-muted-foreground hover:bg-secondary"><Plus className="w-6 h-6" /></button>

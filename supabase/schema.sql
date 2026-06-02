@@ -41,6 +41,7 @@ CREATE TABLE products (
   category VARCHAR(100),
   sizes TEXT[] DEFAULT '{}',
   colors TEXT[] DEFAULT '{}',
+  color_images JSONB DEFAULT '{}'::jsonb,
   in_stock BOOLEAN DEFAULT true,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
@@ -74,13 +75,23 @@ ALTER TABLE products ENABLE ROW LEVEL SECURITY;
 ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE order_items ENABLE ROW LEVEL SECURITY;
 
--- Product Policies: Everyone can read products, only authenticated admin can write
+-- Product Policies
 CREATE POLICY "Allow public read access to products" 
 ON products FOR SELECT USING (true);
 
--- Order Policies: Anyone can insert (create an order anonymously), but only admins can view/update
+CREATE POLICY "Allow admin insert products" ON products FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+CREATE POLICY "Allow admin update products" ON products FOR UPDATE USING (auth.role() = 'authenticated');
+CREATE POLICY "Allow admin delete products" ON products FOR DELETE USING (auth.role() = 'authenticated');
+
+-- Order Policies
 CREATE POLICY "Allow public insert to orders" 
 ON orders FOR INSERT WITH CHECK (true);
 
 CREATE POLICY "Allow public insert to order_items" 
 ON order_items FOR INSERT WITH CHECK (true);
+
+-- Admin Order Policies
+CREATE POLICY "Allow admin read orders" ON orders FOR SELECT USING (auth.role() = 'authenticated');
+CREATE POLICY "Allow admin update orders" ON orders FOR UPDATE USING (auth.role() = 'authenticated');
+CREATE POLICY "Allow admin delete orders" ON orders FOR DELETE USING (auth.role() = 'authenticated');
+CREATE POLICY "Allow admin read order_items" ON order_items FOR SELECT USING (auth.role() = 'authenticated');

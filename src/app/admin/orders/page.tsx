@@ -121,20 +121,17 @@ export default function AdminOrdersPage() {
                       </span>
                     </td>
                     <td className="p-4 text-right">
-                      <div className="relative inline-block group">
-                        <button className="p-2 text-muted-foreground hover:text-primary transition-colors">
-                          <MoreVertical className="w-4 h-4" />
-                        </button>
-                        <div className="absolute right-0 mt-2 w-48 bg-card border border-border shadow-lg rounded-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-20">
-                          <div className="p-2 flex flex-col gap-1">
-                            <p className="text-xs font-semibold px-2 py-1 text-muted-foreground uppercase tracking-wider">Changer statut</p>
-                            <button onClick={() => updateStatus(order.id, 'confirmed')} className="flex items-center gap-2 px-2 py-1.5 text-left text-sm hover:bg-secondary rounded-md w-full">Confirmée</button>
-                            <button onClick={() => updateStatus(order.id, 'shipped')} className="flex items-center gap-2 px-2 py-1.5 text-left text-sm hover:bg-secondary rounded-md w-full">Expédiée</button>
-                            <button onClick={() => updateStatus(order.id, 'delivered')} className="flex items-center gap-2 px-2 py-1.5 text-left text-sm hover:bg-secondary rounded-md w-full">Livrée</button>
-                            <button onClick={() => updateStatus(order.id, 'cancelled')} className="flex items-center gap-2 px-2 py-1.5 text-left text-sm hover:bg-red-50 text-red-600 rounded-md w-full">Annulée</button>
-                          </div>
-                        </div>
-                      </div>
+                      <select
+                        onChange={(e) => updateStatus(order.id, e.target.value)}
+                        value={order.status}
+                        className="bg-secondary/50 border border-border text-sm font-medium rounded-lg p-2 outline-none cursor-pointer hover:bg-secondary transition-colors max-w-[140px]"
+                      >
+                        <option value="pending">En Attente</option>
+                        <option value="confirmed">Confirmée</option>
+                        <option value="shipped">Expédiée</option>
+                        <option value="delivered">Livrée</option>
+                        <option value="cancelled">Annulée</option>
+                      </select>
                     </td>
                   </tr>
                 ))

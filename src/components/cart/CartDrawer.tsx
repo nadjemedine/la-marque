@@ -4,6 +4,7 @@ import { useCartStore } from '@/lib/store';
 import { X, Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -12,6 +13,11 @@ interface CartDrawerProps {
 
 export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   const { items, removeItem, updateQuantity, totalPrice, totalItems } = useCartStore();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <>
@@ -32,7 +38,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         <div className="flex items-center justify-between p-6 border-b border-border">
           <h2 className="text-xl font-bold flex items-center gap-2">
             <ShoppingBag className="w-5 h-5" /> 
-            Panier ({totalItems()})
+            Panier ({mounted ? totalItems() : 0})
           </h2>
           <button 
             onClick={onClose}
@@ -43,7 +49,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         </div>
 
         <div className="flex-1 overflow-y-auto p-6">
-          {items.length === 0 ? (
+          {!mounted || items.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-muted-foreground gap-4">
               <ShoppingBag className="w-12 h-12 opacity-20" />
               <p>Votre panier est vide</p>
@@ -105,7 +111,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           )}
         </div>
 
-        {items.length > 0 && (
+        {mounted && items.length > 0 && (
           <div className="border-t border-border p-6 bg-background">
             <div className="flex justify-between items-center mb-4">
               <span className="text-muted-foreground">Sous-total</span>
