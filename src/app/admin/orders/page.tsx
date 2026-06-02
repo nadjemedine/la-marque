@@ -111,8 +111,10 @@ export default function AdminOrdersPage() {
                     </td>
                     <td className="p-4 font-medium text-foreground">{order.full_name}</td>
                     <td className="p-4">{order.phone_number}</td>
-                    <td className="p-4 truncate max-w-[150px]">
-                      {order.wilaya} <br/> <span className="text-muted-foreground text-xs">{order.commune}</span>
+                    <td className="p-4 max-w-[220px]">
+                      <span className="font-medium">{order.wilaya}</span> <br/>
+                      <span className="text-muted-foreground text-xs">{order.commune}</span> <br/>
+                      <span className="text-muted-foreground text-xs leading-tight block mt-1">{order.address}</span>
                     </td>
                     <td className="p-4 font-bold">{order.total_amount} DZD</td>
                     <td className="p-4">
