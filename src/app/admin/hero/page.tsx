@@ -11,6 +11,10 @@ interface HeroSettings {
   button_text: string;
   button_link: string;
   image_url: string | null;
+  text_color: 'white' | 'black';
+  title_size: number;
+  subtitle_size: number;
+  button_size: number;
   is_active: boolean;
 }
 
@@ -25,6 +29,10 @@ export default function AdminHeroPage() {
     button_text: 'Découvrir',
     button_link: '/categories',
     image_url: '',
+    text_color: 'white' as 'white' | 'black',
+    title_size: 64,
+    subtitle_size: 20,
+    button_size: 16,
     is_active: true,
   });
 
@@ -53,6 +61,10 @@ export default function AdminHeroPage() {
         button_text: data.button_text || 'Découvrir',
         button_link: data.button_link || '/categories',
         image_url: data.image_url || '',
+        text_color: data.text_color || 'white',
+        title_size: data.title_size || 64,
+        subtitle_size: data.subtitle_size || 20,
+        button_size: data.button_size || 16,
         is_active: data.is_active,
       });
       setImagePreview(data.image_url || null);
@@ -94,6 +106,10 @@ export default function AdminHeroPage() {
       button_text: formData.button_text,
       button_link: formData.button_link,
       image_url: finalImageUrl,
+      text_color: formData.text_color,
+      title_size: formData.title_size,
+      subtitle_size: formData.subtitle_size,
+      button_size: formData.button_size,
       is_active: formData.is_active,
       updated_at: new Date().toISOString(),
     };
@@ -174,35 +190,74 @@ export default function AdminHeroPage() {
 
           <div className="space-y-2">
             <label className="text-sm font-medium">Titre principal</label>
-            <input
-              required
-              className="w-full p-3 border rounded-xl bg-background outline-none focus:ring-2 focus:ring-primary transition-all text-lg"
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              placeholder="Ex: Nouvelle Collection Été 2025"
-            />
+            <div className="flex gap-3">
+              <input
+                required
+                className="flex-1 p-3 border rounded-xl bg-background outline-none focus:ring-2 focus:ring-primary transition-all text-lg"
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                placeholder="Ex: Nouvelle Collection Été 2025"
+              />
+              <div className="flex flex-col items-center gap-1">
+                <label className="text-xs text-muted-foreground">Taille</label>
+                <input
+                  type="number"
+                  min="24"
+                  max="120"
+                  className="w-20 p-3 border rounded-xl bg-background outline-none focus:ring-2 focus:ring-primary transition-all text-center"
+                  value={formData.title_size}
+                  onChange={(e) => setFormData({ ...formData, title_size: Number(e.target.value) || 64 })}
+                />
+              </div>
+            </div>
           </div>
 
           <div className="space-y-2">
             <label className="text-sm font-medium">Sous-titre (Optionnel)</label>
-            <textarea
-              rows={2}
-              className="w-full p-3 border rounded-xl bg-background outline-none focus:ring-2 focus:ring-primary transition-all"
-              value={formData.subtitle}
-              onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
-              placeholder="Ex: Découvrez les dernières tendances..."
-            />
+            <div className="flex gap-3">
+              <textarea
+                rows={2}
+                className="flex-1 p-3 border rounded-xl bg-background outline-none focus:ring-2 focus:ring-primary transition-all"
+                value={formData.subtitle}
+                onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
+                placeholder="Ex: Découvrez les dernières tendances..."
+              />
+              <div className="flex flex-col items-center gap-1">
+                <label className="text-xs text-muted-foreground">Taille</label>
+                <input
+                  type="number"
+                  min="12"
+                  max="48"
+                  className="w-20 p-3 border rounded-xl bg-background outline-none focus:ring-2 focus:ring-primary transition-all text-center"
+                  value={formData.subtitle_size}
+                  onChange={(e) => setFormData({ ...formData, subtitle_size: Number(e.target.value) || 20 })}
+                />
+              </div>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">Texte du bouton</label>
-              <input
-                className="w-full p-3 border rounded-xl bg-background outline-none focus:ring-2 focus:ring-primary transition-all"
-                value={formData.button_text}
-                onChange={(e) => setFormData({ ...formData, button_text: e.target.value })}
-                placeholder="Découvrir"
-              />
+              <div className="flex gap-3">
+                <input
+                  className="flex-1 p-3 border rounded-xl bg-background outline-none focus:ring-2 focus:ring-primary transition-all"
+                  value={formData.button_text}
+                  onChange={(e) => setFormData({ ...formData, button_text: e.target.value })}
+                  placeholder="Découvrir"
+                />
+                <div className="flex flex-col items-center gap-1">
+                  <label className="text-xs text-muted-foreground">Taille</label>
+                  <input
+                    type="number"
+                    min="12"
+                    max="32"
+                    className="w-20 p-3 border rounded-xl bg-background outline-none focus:ring-2 focus:ring-primary transition-all text-center"
+                    value={formData.button_size}
+                    onChange={(e) => setFormData({ ...formData, button_size: Number(e.target.value) || 16 })}
+                  />
+                </div>
+              </div>
             </div>
 
             <div className="space-y-2">
@@ -213,6 +268,36 @@ export default function AdminHeroPage() {
                 onChange={(e) => setFormData({ ...formData, button_link: e.target.value })}
                 placeholder="/categories"
               />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Couleur du texte</label>
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, text_color: 'white' })}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border-2 font-medium text-sm transition-all ${
+                  formData.text_color === 'white'
+                    ? 'border-primary bg-primary/10 text-primary'
+                    : 'border-border text-muted-foreground hover:border-border/80'
+                }`}
+              >
+                <span className="w-4 h-4 rounded-full bg-white border border-gray-300" />
+                Blanc
+              </button>
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, text_color: 'black' })}
+                className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border-2 font-medium text-sm transition-all ${
+                  formData.text_color === 'black'
+                    ? 'border-primary bg-primary/10 text-primary'
+                    : 'border-border text-muted-foreground hover:border-border/80'
+                }`}
+              >
+                <span className="w-4 h-4 rounded-full bg-black border border-gray-700" />
+                Noir
+              </button>
             </div>
           </div>
 

@@ -22,6 +22,10 @@ CREATE TABLE hero_settings (
   button_text VARCHAR(255) DEFAULT 'Découvrir',
   button_link VARCHAR(500) DEFAULT '/categories',
   image_url TEXT,
+  text_color VARCHAR(10) DEFAULT 'white' CHECK (text_color IN ('white', 'black')),
+  title_size INTEGER DEFAULT 64 CHECK (title_size BETWEEN 24 AND 120),
+  subtitle_size INTEGER DEFAULT 20 CHECK (subtitle_size BETWEEN 12 AND 48),
+  button_size INTEGER DEFAULT 16 CHECK (button_size BETWEEN 12 AND 32),
   is_active BOOLEAN DEFAULT true,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );

@@ -12,6 +12,10 @@ export default function Hero() {
     button_text: string;
     button_link: string;
     image_url: string | null;
+    text_color: 'white' | 'black';
+    title_size: number;
+    subtitle_size: number;
+    button_size: number;
     is_active: boolean;
   } | null>(null);
   const [loading, setLoading] = useState(true);
@@ -45,25 +49,49 @@ export default function Hero() {
   const btnText = heroSettings?.button_text || "Découvrir maintenant";
   const btnLink = heroSettings?.button_link || "/categories";
   
+  const imageUrl = heroSettings?.image_url || null;
+  const isWhite = (heroSettings?.text_color || 'white') === 'white';
+  const txtCls = isWhite ? 'text-white' : 'text-black';
+  const subtitleCls = isWhite ? 'text-white/80' : 'text-black/70';
+  const btnCls = isWhite
+    ? 'border-white text-white hover:bg-white hover:text-black'
+    : 'border-black text-black hover:bg-black hover:text-white';
+  const titleSize = heroSettings?.title_size || 64;
+  const subtitleSize = heroSettings?.subtitle_size || 20;
+  const buttonSize = heroSettings?.button_size || 16;
+
   return (
     <section className="relative h-[80vh] min-h-[600px] flex items-center justify-center overflow-hidden">
-      {/* Background with an aesthetic gradient or image placeholder */}
+      {/* Background image or fallback color */}
       <div className="absolute inset-0 bg-secondary/50">
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-background z-10" />
+        {imageUrl && (
+          <img
+            src={imageUrl}
+            alt="Hero background"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        )}
       </div>
 
       <div className="container px-6 max-w-7xl relative z-20 flex flex-col items-start justify-center h-full">
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-foreground max-w-2xl mb-6 leading-tight animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-150 whitespace-pre-wrap">
+        <h1
+          className={`font-bold tracking-tight ${txtCls} max-w-2xl mb-6 leading-tight animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-150 whitespace-pre-wrap`}
+          style={{ fontSize: `${titleSize}px` }}
+        >
           {title}
         </h1>
-        <p className="text-lg md:text-xl text-muted-foreground max-w-xl mb-10 leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300 whitespace-pre-wrap">
+        <p
+          className={`font-bold ${subtitleCls} max-w-xl mb-10 leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300 whitespace-pre-wrap`}
+          style={{ fontSize: `${subtitleSize}px` }}
+        >
           {subtitle}
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-500">
           <Link 
             href={btnLink} 
-            className="flex items-center justify-center gap-2 bg-foreground text-background px-8 py-4 rounded-full font-medium hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-105"
+            className={`flex items-center justify-center gap-2 border-2 ${btnCls} px-8 py-4 rounded-full font-bold transition-all duration-300 hover:scale-105`}
+            style={{ fontSize: `${buttonSize}px` }}
           >
             {btnText}
             <ArrowRight className="w-5 h-5" />
