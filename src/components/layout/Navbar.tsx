@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { ShoppingCart, Menu, Search, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
@@ -70,8 +71,17 @@ export default function Navbar() {
           </button>
 
           {/* Logo */}
-          <Link href="/" className="text-xl md:text-2xl font-bold tracking-wider uppercase flex-1 text-center md:text-left whitespace-nowrap">
-            la marque.
+          <Link href="/" className="flex-1 flex justify-center md:justify-start items-center relative h-10">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 -translate-y-1/2 w-[100px]">
+              <Image 
+                src="/logo.png" 
+                alt="Mounlek Collection" 
+                width={100} 
+                height={100} 
+                className="w-full h-auto object-contain"
+                priority
+              />
+            </div>
           </Link>
 
           {/* Desktop Navigation */}

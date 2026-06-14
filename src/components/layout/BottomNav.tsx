@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Home, Grid, Search, ShoppingCart } from 'lucide-react';
+import { Home, Tag, Search, ShoppingCart } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useCartStore } from '@/lib/store';
 import { useState, useEffect } from 'react';
@@ -44,7 +44,7 @@ export default function BottomNav() {
             href="/categories" 
             className={`flex flex-col items-center gap-1 ${isActive('/categories') ? 'text-primary' : 'text-muted-foreground'}`}
           >
-            <Grid className="w-5 h-5" />
+            <Tag className="w-5 h-5" />
             <span className="text-[10px] font-medium uppercase tracking-wider">Catégories</span>
           </Link>
 

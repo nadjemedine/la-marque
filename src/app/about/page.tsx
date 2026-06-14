@@ -10,10 +10,10 @@ export default function AboutPage() {
         {/* Hero Section */}
         <div className="text-center max-w-4xl mx-auto mb-20">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 tracking-tighter">
-            L'élégance à la portée de tous avec <span className="text-primary italic">La Marque</span>
+            L'élégance à la portée de tous avec <span className="text-primary italic">Mounlek Collection</span>
           </h1>
           <p className="text-xl text-muted-foreground leading-relaxed">
-            Née de la passion pour la mode et le raffinement, La Marque est votre destination ultime pour les vêtements et accessoires de la plus haute qualité. Nous sélectionnons nos produits avec un soin extrême pour vous offrir une expérience d'achat incomparable.
+            Née de la passion pour la mode et le raffinement, Mounlek Collection est votre destination ultime pour les vêtements et accessoires de la plus haute qualité. Nous sélectionnons nos produits avec un soin extrême pour vous offrir une expérience d'achat incomparable.
           </p>
         </div>
 
@@ -62,7 +62,7 @@ export default function AboutPage() {
                   Ce qui a commencé comme une simple idée entre passionnés de mode est rapidement devenu l'une des boutiques en ligne les plus en vue. Nous avons remarqué un manque de vêtements alliant style moderne, haute qualité et prix accessible.
                 </p>
                 <p>
-                  C'est ainsi qu'est née <strong>La Marque</strong>. Plus qu'une simple boutique, c'est un style de vie. Notre mission est de vous aider à exprimer votre personnalité à travers des collections uniques et intemporelles.
+                  C'est ainsi qu'est née <strong>Mounlek Collection</strong>. Plus qu'une simple boutique, c'est un style de vie. Notre mission est de vous aider à exprimer votre personnalité à travers des collections uniques et intemporelles.
                 </p>
               </div>
               <div className="mt-8">

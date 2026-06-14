@@ -54,8 +54,8 @@ export default function Hero() {
   const txtCls = isWhite ? 'text-white' : 'text-black';
   const subtitleCls = isWhite ? 'text-white/80' : 'text-black/70';
   const btnCls = isWhite
-    ? 'border-white text-white hover:bg-white hover:text-black'
-    : 'border-black text-black hover:bg-black hover:text-white';
+    ? 'bg-white text-black hover:bg-white/90 shadow-md'
+    : 'bg-black text-white hover:bg-black/90 shadow-md';
   const titleSize = heroSettings?.title_size || 64;
   const subtitleSize = heroSettings?.subtitle_size || 20;
   const buttonSize = heroSettings?.button_size || 16;
@@ -90,7 +90,7 @@ export default function Hero() {
         <div className="flex flex-col sm:flex-row gap-4 animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-500">
           <Link 
             href={btnLink} 
-            className={`flex items-center justify-center gap-2 border-2 ${btnCls} px-8 py-4 rounded-full font-bold transition-all duration-300 hover:scale-105`}
+            className={`flex items-center justify-center gap-2 ${btnCls} px-8 py-4 rounded-full font-bold transition-all duration-300 hover:scale-105`}
             style={{ fontSize: `${buttonSize}px` }}
           >
             {btnText}

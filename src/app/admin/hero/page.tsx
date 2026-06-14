@@ -160,9 +160,9 @@ export default function AdminHeroPage() {
                   setImagePreview(null);
                   setFormData({ ...formData, image_url: '' });
                 }}
-                className="absolute top-3 right-3 bg-black/60 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute top-3 right-3 bg-black/60 text-white p-3 md:p-2 rounded-full opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity flex items-center justify-center"
               >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5 md:w-4 md:h-4" />
               </button>
             </div>
           ) : (

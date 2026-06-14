@@ -9,7 +9,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "la marque",
+  title: "Mounlek Collection",
   description: "Boutique de vêtements élégants",
 };
 
