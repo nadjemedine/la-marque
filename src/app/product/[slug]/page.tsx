@@ -132,18 +132,19 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
           
           {/* Image Gallery */}
           <div className="space-y-4">
-            <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-secondary border border-border group">
+            <div className="relative rounded-2xl overflow-hidden bg-secondary border border-border group">
               {images.length > 0 ? (
                 <Image 
                   src={images[activeImage]} 
                   alt={product.name}
-                  fill
+                  width={0}
+                  height={0}
                   priority
-                  className="object-contain"
+                  className="w-full h-auto object-contain"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                <div className="w-full min-h-[400px] flex items-center justify-center text-muted-foreground">
                   No images
                 </div>
               )}
