@@ -139,7 +139,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                   alt={product.name}
                   fill
                   priority
-                  className="object-cover"
+                  className="object-contain"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               ) : (
