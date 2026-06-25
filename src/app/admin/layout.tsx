@@ -101,7 +101,7 @@ export default function AdminLayout({
       <aside className="hidden md:flex w-64 bg-background border-r border-border flex-col shrink-0">
         <div className="h-20 flex items-center px-8 border-b border-border">
           <Link href="/admin" className="text-xl font-bold uppercase tracking-wider">
-            Mounlek Collection <span className="text-primary">Admin</span>
+            Isskha Collection <span className="text-primary">Admin</span>
           </Link>
         </div>
         
@@ -140,7 +140,7 @@ export default function AdminLayout({
           </button>
           
           <span className="font-bold uppercase tracking-wider text-sm">
-            Mounlek Collection <span className="text-primary">Admin</span>
+            Isskha Collection <span className="text-primary">Admin</span>
           </span>
           
           {/* Spacer to keep center alignment visually balanced if we don't have a right icon */}

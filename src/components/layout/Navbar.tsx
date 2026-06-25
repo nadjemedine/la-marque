@@ -75,7 +75,7 @@ export default function Navbar() {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 -translate-y-1/2 w-[100px]">
               <Image 
                 src="/logo.png" 
-                alt="Mounlek Collection" 
+                alt="Isskha Collection" 
                 width={100} 
                 height={100} 
                 className="w-full h-auto object-contain"

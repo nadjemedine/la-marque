@@ -48,7 +48,7 @@ export default function AdminLoginPage() {
             <Lock className="w-6 h-6" />
           </div>
           <h1 className="text-2xl font-bold uppercase tracking-wider">
-            Mounlek Collection <span className="text-primary">Admin</span>
+            Isskha Collection <span className="text-primary">Admin</span>
           </h1>
           <p className="text-sm text-muted-foreground mt-2">Connectez-vous pour accéder au tableau de bord</p>
         </div>
